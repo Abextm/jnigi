@@ -7,7 +7,7 @@
 package jnigi
 
 /*
-#cgo CFLAGS:-I../include/ -Ic:/oraclejdk/include -Ic:/oraclejdk/include/win32
-#cgo LDFLAGS:-ljvm -Lc:/oraclejdk/jre/bin/server
+#cgo CFLAGS:-I../include/ "-Ic:/Program Files/Java/jdk-9.0.1/include" "-Ic:/Program Files/Java/jdk-9.0.1/include/win32"
+#cgo LDFLAGS:-ljvm "-Lc:/Program Files/Java/jdk-9.0.1/bin/server"
 */
 import "C"

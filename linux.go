@@ -7,7 +7,7 @@
 package jnigi
 
 /*
-#cgo CFLAGS:-I../include/ -I/usr/lib/jvm/default-java/include
+#cgo CFLAGS:-I../include/ -I/usr/lib/jvm/java-9-oracle/include -I/usr/lib/jvm/java-9-oracle/include/linux
 #cgo LDFLAGS:-ldl
 
 #include <dlfcn.h>
