@@ -111,7 +111,7 @@ func TestBasic(t *testing.T) {
 	if i, ok := v.(int); !ok || i != 5 {
 		t.Logf("basic test failed")
 	}
-	
+
 	src := "fromChar"
 	dest := make([]uint16, len(src))
 	for i, c := range src {
@@ -129,7 +129,7 @@ func TestBasic(t *testing.T) {
 	if b, ok := v.([]byte); !ok || string(b) != src {
 		t.Logf("basic test failed")
 	}
-	
+
 }
 
 func TestAttach(t *testing.T) {
@@ -245,7 +245,7 @@ func TestByteArray(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	
+
 	env.NoReturnConvert()
 	v, err := str.CallMethod(env, "getBytes", Byte|Array, env.GetUTF8String())
 	if err != nil {

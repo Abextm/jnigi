@@ -1177,4 +1177,3 @@ func attachCurrentThread(vm unsafe.Pointer, penv unsafe.Pointer, args unsafe.Poi
 func detachCurrentThread(vm unsafe.Pointer) jint {
 	return jint(C.DetachCurrentThread((*C.JavaVM)(vm)))
 }
-

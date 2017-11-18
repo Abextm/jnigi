@@ -34,14 +34,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-    obj, err := env.NewObject("java/lang/Object")
-    if err != nil {
-    	log.Fatal(err)
-    }
-    v, err := obj.CallMethod(env, "hashCode", jnigi.Int)
-    if err != nil {
-    	log.Fatal(err)
-    }
+	obj, err := env.NewObject("java/lang/Object")
+	if err != nil {
+		log.Fatal(err)
+	}
+	v, err := obj.CallMethod(env, "hashCode", jnigi.Int)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Printf("object hash code: %d\n", v.(int))
 }
 

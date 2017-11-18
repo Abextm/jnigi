@@ -8,8 +8,8 @@ import (
 	"errors"
 	"fmt"
 	"runtime"
-	"unsafe"
 	"strings"
+	"unsafe"
 )
 
 // copy arguments in to C memory before passing to jni functions
@@ -70,10 +70,10 @@ type jobj interface {
 }
 
 type Env struct {
-	jniEnv     unsafe.Pointer
-	preCalcSig string
+	jniEnv          unsafe.Pointer
+	preCalcSig      string
 	noReturnConvert bool
-	classCache map[string]jclass
+	classCache      map[string]jclass
 }
 
 func WrapEnv(envPtr unsafe.Pointer) *Env {
@@ -190,7 +190,6 @@ func (j *Env) NewObject(className string, args ...interface{}) (*ObjectRef, erro
 	return &ObjectRef{obj, className, false}, nil
 }
 
-
 func (j *Env) callFindClass(className string) (jclass, error) {
 	if v, ok := j.classCache[className]; ok {
 		return v, nil
@@ -204,7 +203,7 @@ func (j *Env) callFindClass(className string) (jclass, error) {
 	ref := newGlobalRef(j.jniEnv, jobject(class))
 	deleteLocalRef(j.jniEnv, jobject(class))
 	j.classCache[className] = jclass(ref)
-	
+
 	return jclass(ref), nil
 }
 
@@ -393,7 +392,7 @@ func (j *Env) ToObjectArray(objRefs []*ObjectRef, className string) (arrayRef *O
 
 type ByteArray struct {
 	arr jbyteArray
-	n int
+	n   int
 }
 
 func (j *Env) NewByteArray(n int) *ByteArray {
@@ -502,7 +501,7 @@ func (j *Env) toJavaArray(src interface{}) (jobject, error) {
 		var ptr unsafe.Pointer
 		if copyToC {
 			ptr = malloc(uintptr(len(v)))
-		    defer free(ptr)
+			defer free(ptr)
 			data := (*(*[big]byte)(ptr))[:len(v)]
 			copy(data, v)
 		} else {
@@ -566,7 +565,7 @@ func (j *Env) toJavaArray(src interface{}) (jobject, error) {
 			return jobject(array), nil
 		}
 		var ptr unsafe.Pointer
-		if copyToC {		
+		if copyToC {
 			ptr = malloc(unsafe.Sizeof(int32(0)) * uintptr(len(v)))
 			defer free(ptr)
 			data := (*(*[big]int32)(ptr))[:len(v)]
@@ -643,14 +642,14 @@ func (j *Env) toJavaArray(src interface{}) (jobject, error) {
 			ptr = malloc(unsafe.Sizeof(float32(0)) * uintptr(len(v)))
 			defer free(ptr)
 			data := (*(*[big]float32)(ptr))[:len(v)]
-			copy(data, v)	
+			copy(data, v)
 		} else {
 			ptr = unsafe.Pointer(&v[0])
 		}
 		setFloatArrayRegion(j.jniEnv, array, jsize(0), jsize(len(v)), ptr)
 		if j.exceptionCheck() {
 			return 0, j.handleException()
-		}		
+		}
 		return jobject(array), nil
 	case []float64:
 		array := newDoubleArray(j.jniEnv, jsize(len(v)))
@@ -672,7 +671,7 @@ func (j *Env) toJavaArray(src interface{}) (jobject, error) {
 		setDoubleArrayRegion(j.jniEnv, array, jsize(0), jsize(len(v)), ptr)
 		if j.exceptionCheck() {
 			return 0, j.handleException()
-		}		
+		}
 		return jobject(array), nil
 	default:
 		return 0, errors.New("JNIGI unsupported array type")
@@ -742,7 +741,7 @@ func (j *Env) createArgs(args []interface{}) (ptr unsafe.Pointer, refs []jobject
 	if copyToC {
 		ptr = malloc(unsafe.Sizeof(uint64(0)) * uintptr(len(args)))
 		data := (*(*[big]uint64)(ptr))[:len(args)]
-		copy(data, argList)	
+		copy(data, argList)
 	} else {
 		ptr = unsafe.Pointer(&argList[0])
 	}
@@ -941,7 +940,7 @@ func (o *ObjectRef) getClass(env *Env) (class jclass, err error) {
 			return 0, errors.New("unexpected error getting object class name")
 		}
 		defer env.DeleteLocalRef(strObj)
-		b , err := strObj.CallMethod(env, "getBytes", Byte | Array, env.GetUTF8String())
+		b, err := strObj.CallMethod(env, "getBytes", Byte|Array, env.GetUTF8String())
 		if err != nil {
 			return 0, err
 		}
